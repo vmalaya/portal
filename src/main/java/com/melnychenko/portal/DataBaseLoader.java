@@ -11,6 +11,6 @@ public class DataBaseLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        this.userRepository.save(new User("valentyna.me", "11111", "student"));
+       // this.userRepository.save(new User("valentyna.me", "11111", "student"));
     }
 }
