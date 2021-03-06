@@ -34,16 +34,16 @@ public class Task {
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "task_assignee",
-        joinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"),
+        joinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
-    private Set<Group> toGroup;
+    private Set<Class> toClass;
 
-    public Task(String title, String description, User createdBy, Set<User> toUser, Set<Group> toGroup, String status) {
+    public Task(String title, String description, User createdBy, Set<User> toUser, Set<Class> toClass, String status) {
         this.title = title;
         this.description = description;
         this.createdBy = createdBy;
         this.toUser = toUser;
-        this.toGroup = toGroup;
+        this.toClass = toClass;
         this.status = status;
     }
 }
