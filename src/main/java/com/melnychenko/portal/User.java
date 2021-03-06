@@ -21,7 +21,7 @@ public class User {
     @Column(nullable = false)
     private String role;
     @ManyToMany(mappedBy = "users")
-    private Set<Group> groups;
+    private Set<Class> classes;
     @OneToMany(mappedBy = "createdBy")
     private Set<Task> createdTasks;
     @ManyToMany(mappedBy = "toUser")

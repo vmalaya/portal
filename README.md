@@ -21,10 +21,10 @@ json"
 
 ````
                            +-----------+
-                           |User_Group |        +------+
-   +-----------+           +-----------+        |Group |
+                           |User_Class |        +------+
+   +-----------+           +-----------+        |Class |
    |    User   |           |id PK      |        +------+
-   +-----------+           |group_id FK|<-----+-|id PK |
+   +-----------+           |class_id FK|<-----+-|id PK |
    |PK id      |-----+---->|user_id FK |      | |name  |
    |username   |     |     +-----------+      | +------+
    |password   |     |                        |
@@ -37,7 +37,7 @@ json"
                      |  |description      |   |
                      |  |createdBy        |   |
                      +->|user_assignee FK |   |
-                        |group_assignee FK|<--+
+                        |class_assignee FK|<--+
                         |status           |
                         +-----------------+
 ````

@@ -13,7 +13,7 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode
 @RequiredArgsConstructor
-public class Group {
+public class Class {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -21,14 +21,14 @@ public class Group {
     private String name;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "user_group",
+    @JoinTable(name = "user_class",
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id"))
+        inverseJoinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id"))
     private Set<User> users;
-    @ManyToMany(mappedBy = "toGroup")
-    private Set<Task> assignedToGroup;
+    @ManyToMany(mappedBy = "toClass")
+    private Set<Task> assignedToClass;
 
-    public Group(String name) {
+    public Class(String name) {
         this.name = name;
     }
 }
