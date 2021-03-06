@@ -16,7 +16,7 @@ create table if not exists user_class(
     user_id int,
     foreign key (class_id) references class(id),
     foreign key (user_id) references class(id)
-)
+);
 create table if not exists task(
     id identity not null primary key,
     title varchar(150) not null,
@@ -29,8 +29,8 @@ create table if not exists task_assignee(
     id identity not null primary key,
     task_id int,
     user_id int,
-    class_id int
+    class_id int,
     foreign key (task_id) references task(id),
     foreign key (user_id) references user(id),
-    foreign key (class_id) references class(id),
+    foreign key (class_id) references class(id)
 );
