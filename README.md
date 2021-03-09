@@ -30,16 +30,16 @@ json"
    |password   |     |                        |
    |role       |     |                        |
    +-----------+     |  +-----------------+   |
-                     |  | Task            |   |
-                     |  +-----------------+   |
-                     |  |id PK            |   |
-                     |  |title            |   |
-                     |  |description      |   |
-                     |  |createdBy        |   |
-                     +->|user_assignee FK |   |
-                        |class_assignee FK|<--+
-                        |status           |
-                        +-----------------+
+                  +--+--| Task            |   |
+ +-------------+  |  |  +-----------------+   |
+ |Task_Assignee|  |  |  |id PK            |   |
+ +-------------+  |  |  |title            |   |
+ |id  PK       |  |  |  |description      |   |
+ |task_id    FK|<-+  +->|createdBy        |   |
+ |user_id    FK|<----+  |status           |   |
+ |class_id FK  |<-+     +-----------------+   |
+ +-------------+  |                           |
+                  +---------------------------+
 ````
 
 ### Reference Documentation
