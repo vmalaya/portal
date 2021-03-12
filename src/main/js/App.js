@@ -1,16 +1,22 @@
-import React, { Component } from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import Tasks from './pages/Tasks';
+import Groups from './pages/Groups';
 
+import 'antd/dist/antd.min.css';
 
-export class App extends Component {
-    render() {
+const App = ()=> {
         return (
-            <div>
-            <h1>Welcome to React Front End Served by Spring Boot</h1>
-        </div>
-    );
-    }
-}
+          <BrowserRouter basename={"/"}>
+            <Switch>
+              <Route exact={true} path={"/"} component={Tasks}/>
+              <Route path={"/groups"} component={Groups}/>
+            </Switch>
+          </BrowserRouter>
+
+        );
+};
 
 export default App;
 
