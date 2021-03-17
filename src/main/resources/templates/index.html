@@ -9,6 +9,14 @@
 
 <div id="app"></div>
 
+<script defer type="module">
+    if(window.isServer) {
+        window.renderAppOnServer()
+    } else {
+        window.renderApp()
+    }
+</script>
+
 <script src="built/bundle.js"></script>
 
 </body>
