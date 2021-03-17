@@ -2,8 +2,6 @@ package com.melnychenko.portal;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jdbc.repository.config.AbstractJdbcConfiguration;
-import org.springframework.data.jdbc.repository.config.EnableJdbcRepositories;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -11,9 +9,9 @@ import org.springframework.transaction.TransactionManager;
 
 import javax.sql.DataSource;
 
-@Configuration
+/*@Configuration
 @ComponentScan
-@EnableJdbcRepositories
+//@EnableJdbcRepositories
 public class DataSourceConfig extends AbstractJdbcConfiguration {
 
   @Bean
@@ -28,4 +26,4 @@ public class DataSourceConfig extends AbstractJdbcConfiguration {
   TransactionManager transactionManager(DataSource dataSource) {
     return new DataSourceTransactionManager(dataSource);
   }
-}
+}*/

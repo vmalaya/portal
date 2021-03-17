@@ -1,4 +1,4 @@
-package com.melnychenko.portal;
+package com.melnychenko.portal.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -15,35 +16,25 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @Column(nullable = false)
     private String title;
     @Column
     private String description;
     @ManyToOne
-    private User createdBy;
-    @Column
-    private String status;
+    @JoinColumn(name = "createdBy")
+    private Teacher createdBy;
 
     @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "task_assignee",
-        joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
-    private Set<User> toUser;
+    @JoinTable(name = "task_student",
+            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
+    private List<Student> students;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "task_assignee",
-        joinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
-    private Set<Class> toClass;
-
-    public Task(String title, String description, User createdBy, Set<User> toUser, Set<Class> toClass, String status) {
+    public Task(Long id, String title, String description, Teacher createdBy) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.createdBy = createdBy;
-        this.toUser = toUser;
-        this.toClass = toClass;
-        this.status = status;
     }
 }
