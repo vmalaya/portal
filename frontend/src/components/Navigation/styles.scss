@@ -1,0 +1,11 @@
+.nav {
+  &-btn-logout {
+    position: absolute !important;
+    right: 50px !important;
+    top: 16px;
+  }
+
+  &-item-last {
+    margin-left: auto !important;
+  }
+}
