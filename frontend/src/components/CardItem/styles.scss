@@ -1,0 +1,22 @@
+.card {
+  &-delete-btn {
+    position: absolute !important;
+    top: -10px !important;
+    right: -10px !important;
+    opacity: 0;
+    pointer-events: none !important;
+  }
+
+  &-wrapper {
+    position: relative;
+
+    &:hover {
+      & .card-delete-btn {
+        opacity: 1;
+        pointer-events: all !important;
+      }
+    }
+  }
+
+
+}
