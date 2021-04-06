@@ -7,19 +7,17 @@ const { Content } = Layout;
 
 const Tasks = () => {
   return (
-    <Layout>
-      <Content style={{ 'padding': '20px' }}>
-        <PageHeader
-          backIcon={false}
-          className="site-page-header"
-          onBack={() => null}
-          title="Tasks"
-          subTitle=""
-        />
-        <Button style={{ 'marginBottom': '20px' }} type="primary">Add Task</Button>
-        <CardsList title={"Tasks"} cards={mockedTasks} />
-      </Content>
-    </Layout>
+    <Content style={{ 'padding': '20px' }}>
+      <PageHeader
+        backIcon={false}
+        className="site-page-header"
+        onBack={() => null}
+        title="Tasks"
+        subTitle=""
+      />
+      <Button style={{ 'marginBottom': '20px' }} type="primary">Add Task</Button>
+      <CardsList title={"Tasks"} cards={mockedTasks} />
+    </Content>
   );
 };
 
