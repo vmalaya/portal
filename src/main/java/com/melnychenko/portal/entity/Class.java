@@ -28,16 +28,12 @@ public class Class {
             inverseJoinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id"))
     private List<Student> students;
 
+    @ManyToMany(mappedBy = "classes")
+    private List<Task> tasks;
+
     public Class(Long id, String name, Teacher owner) {
         this.id = id;
         this.name = name;
         this.owner = owner;
-    }
-
-    public Class(Long id, String name, Teacher owner, List<Student> students) {
-        this.id = id;
-        this.name = name;
-        this.owner = owner;
-        this.students = students;
     }
 }

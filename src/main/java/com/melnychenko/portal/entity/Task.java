@@ -32,6 +32,12 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
     private List<Student> students;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "task_class",
+            joinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
+    private List<Class> classes;
+
     public Task(Long uuid, String title, String description, Teacher createdBy) {
         this.uuid = uuid;
         this.title = title;

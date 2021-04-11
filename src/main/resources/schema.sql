@@ -33,6 +33,14 @@ create table if not exists task_student(
     foreign key (student_id) references student(id)
 );
 
+create table if not exists task_class(
+    id identity not null primary key,
+    task_id int,
+    class_id int,
+    foreign key (task_id) references task(id),
+    foreign key (class_id) references class(id)
+);
+
 create table if not exists class_student(
     id identity not null primary key,
     class_id int,
