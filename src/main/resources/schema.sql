@@ -21,8 +21,8 @@ create table if not exists task(
     id integer not null primary key,
     title varchar(150) not null,
     description varchar(300),
-    createdBy int not null,
-    foreign key (createdBy) references teacher(id)
+    created_by int not null,
+    foreign key (created_by) references teacher(id)
 );
 
 create table if not exists task_student(

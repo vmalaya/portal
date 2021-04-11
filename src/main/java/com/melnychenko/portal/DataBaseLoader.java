@@ -33,7 +33,7 @@ public class DataBaseLoader implements CommandLineRunner {
     @Override
     public void run(String... args) {
         // create teacher
-        Teacher teacher = new Teacher(1L, "11111", "student");
+        Teacher teacher = new Teacher(  2L, "11111", "student");
         this.teacherRepository.save(teacher);
         // create task
         Task task = new Task(1L, "First Task", "First Description", teacher);
@@ -47,7 +47,7 @@ public class DataBaseLoader implements CommandLineRunner {
         updatedTask.setStudents(singletonList(student));
         this.taskRepository.save(updatedTask);
         // create class
-        Class group = new Class(1L, "group1", teacher);
+/*        Class group = new Class(2L, "group1", teacher);
         group.setStudents(singletonList(student));
         this.classRepository.save(group);
         // assign student to the class
@@ -65,6 +65,6 @@ public class DataBaseLoader implements CommandLineRunner {
         // assign task to the class
         Task taskToBeUpdatedWithClass = this.taskRepository.findById(updatedTask.getUuid()).get();
         taskToBeUpdatedWithClass.setClasses(singletonList(groupToBeUpdatedWithTask));
-        this.taskRepository.save(taskToBeUpdatedWithClass);
+        this.taskRepository.save(taskToBeUpdatedWithClass);*/
     }
 }

@@ -23,7 +23,7 @@ public class Task {
     @Column
     private String description;
     @ManyToOne
-    @JoinColumn(name = "createdBy")
+    @JoinColumn(name = "created_by")
     private Teacher createdBy;
 
     @ManyToMany(cascade = CascadeType.ALL)
