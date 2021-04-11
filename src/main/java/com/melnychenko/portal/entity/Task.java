@@ -15,8 +15,9 @@ import java.util.Set;
 @EqualsAndHashCode
 @RequiredArgsConstructor
 public class Task {
-    @Id
-    private Long id;
+    @Id()
+    @Column(name = "id")
+    private Long uuid;
     @Column(nullable = false)
     private String title;
     @Column
@@ -31,8 +32,8 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
     private List<Student> students;
 
-    public Task(Long id, String title, String description, Teacher createdBy) {
-        this.id = id;
+    public Task(Long uuid, String title, String description, Teacher createdBy) {
+        this.uuid = uuid;
         this.title = title;
         this.description = description;
         this.createdBy = createdBy;
