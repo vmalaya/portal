@@ -23,7 +23,7 @@ public class Task {
     @Column
     private String description;
     @ManyToOne
-    @JoinColumn(name = "createdBy")
+    @JoinColumn(name = "created_by")
     private Teacher createdBy;
 
     @ManyToMany(cascade = CascadeType.ALL)
@@ -31,6 +31,12 @@ public class Task {
             joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
     private List<Student> students;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "task_class",
+            joinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"))
+    private List<Class> classes;
 
     public Task(Long uuid, String title, String description, Teacher createdBy) {
         this.uuid = uuid;
