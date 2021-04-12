@@ -16,7 +16,7 @@ const Groups = () => {
         subTitle=""
       />
       <Button style={{ 'marginBottom': '20px'}} type="primary">Create New Group</Button>
-      <CardsList title={"Groups"} cards={mockedGroups}/>
+      <CardsList title={"Groups"} cards={mockedGroups} type="groups"/>
     </Content>
    );
 };

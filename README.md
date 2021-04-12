@@ -18,29 +18,14 @@ json"
 ```
 
 ## Database design
+Entity-relationship diagram
+ 
+![database](docs/img/database/e-r.png)
 
-````
-                           +-----------+
-                           |User_Class |        +------+
-   +-----------+           +-----------+        |Class |
-   |    User   |           |id PK      |        +------+
-   +-----------+           |class_id FK|<-----+-|id PK |
-   |PK id      |-----+---->|user_id FK |      | |name  |
-   |username   |     |     +-----------+      | +------+
-   |password   |     |                        |
-   |role       |     |                        |
-   +-----------+     |  +-----------------+   |
-                  +--+--| Task            |   |
- +-------------+  |  |  +-----------------+   |
- |Task_Assignee|  |  |  |id PK            |   |
- +-------------+  |  |  |title            |   |
- |id  PK       |  |  |  |description      |   |
- |task_id    FK|<-+  +->|createdBy        |   |
- |user_id    FK|<----+  |status           |   |
- |class_id FK  |<-+     +-----------------+   |
- +-------------+  |                           |
-                  +---------------------------+
-````
+Tables
+ 
+![database](docs/img/database/database.png)
+
 
 ### Reference Documentation
 For further reference, please consider the following sections:
