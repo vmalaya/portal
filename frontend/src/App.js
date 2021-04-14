@@ -6,6 +6,7 @@ import Tasks from "./pages/Tasks";
 import Groups from "./pages/Groups";
 import Navigation from "./components/Navigation";
 import Task from "./pages/Task";
+import Group from "./pages/Group";
 
 import "antd/dist/antd.min.css";
 
@@ -26,6 +27,7 @@ const App = () => {
            } />
         <Route exact path={"/groups"} component={Groups} />
         <Route exact={true} path={"/tasks/:taskId"} component={Task} />
+        <Route exact={true} path={"/groups/:groupId"} component={Group} />
         <Route exact={true} path={"/sign-in"} component={SignIn} />
       </Switch>
     </Layout>
