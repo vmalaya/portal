@@ -14,25 +14,26 @@ import java.util.List;
 @EqualsAndHashCode
 @RequiredArgsConstructor
 public class Class {
-    @Id
-    @GeneratedValue()
-    private Long id;
+    @Id()
+    @Column(name = "id")
+    private Long uuid;
     @Column(nullable = false)
     private String name;
     @ManyToOne
     @JoinColumn(name = "owner")
     private Teacher owner;
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "class_student",
-            joinColumns = @JoinColumn(name = "student_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "class_id", referencedColumnName = "id"))
-    private List<Student> students;
-
+    @OneToMany(mappedBy = "classEntity")
+    private List<ClassStudent> students;
     @ManyToMany(mappedBy = "classes")
     private List<Task> tasks;
 
+    public Class(Long id, String name) {
+        this.uuid = id;
+        this.name = name;
+    }
+
     public Class(Long id, String name, Teacher owner) {
-        this.id = id;
+        this.uuid = id;
         this.name = name;
         this.owner = owner;
     }

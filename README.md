@@ -10,10 +10,15 @@ mvnw spring-boot:run
 
 // test
 curl localhost:8080/api/
-curl localhost:8080/api/users/1
-// to save a new user
-curl -X POST localhost:8080/api/users -d "{\"username\": \"Bilbo.ba\", \"password\": \"dragon\", \"role\": \"teacher\"}" -H "Content-Type:application/
-json"
+curl localhost:8080/api/students/1
+// to save a new group
+curl -X POST localhost:8080/api/classes -d "{\"uuid\": \"2\", \"name\": \"hufflepuf\", \"owner\": \"http://localhost:8080/api/teachers/1\"}" -H "Content-Type:application/json"
+// to update task 
+curl -X PUT -H "Content-Type:application/json" http://localhost:8080/api/tasks/1 -d "{\"title\": \"Kill dragon\", \"description\": \"Try to kill dragon in order to survive among mermaids\"}"
+// assign task to a student
+curl -X POST http://localhost:8080/api/taskStudents -d "{\"uuid\": \"1\", \"student\": \"http://localhost:8080/api/students/1\", \"task\": \"http://localhost:8080/api/tasks/1\"}" -H "Content-Type:application/json"
+// add user to a class
+curl -X POST http://localhost:8080/api/classStudents -d "{\"uuid\": \"1\", \"classEntity\": \"http://localhost:8080/api/classes/1\", \"student\": \"http://localhost:8080/api/students/1\"}" -H "Content-Type:application/json"
 
 ```
 

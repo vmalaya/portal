@@ -39,15 +39,15 @@ public class DataBaseLoader implements CommandLineRunner {
         Task task = new Task(1L, "First Task", "First Description", teacher);
         this.taskRepository.save(task);
         // create student
-        Student student = new Student(1L, "student1name", "student1password");
+/*        Student student = new Student(1L, "student1name", "student1password");
         student.setTasks(singletonList(task));
         this.studentRepository.save(student);
         // assign task to student
-        Task updatedTask = this.taskRepository.findById(task.getUuid()).get();
+        Task updatedTask = this.taskRepository.findById(task.getId()).get();
         updatedTask.setStudents(singletonList(student));
         this.taskRepository.save(updatedTask);
         // create class
-/*        Class group = new Class(2L, "group1", teacher);
+        Class group = new Class(2L, "group1", teacher);
         group.setStudents(singletonList(student));
         this.classRepository.save(group);
         // assign student to the class
