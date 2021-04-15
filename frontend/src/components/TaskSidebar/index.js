@@ -7,7 +7,7 @@ import './styles.scss';
 
 const { Title } = Typography;
 
-const TaskSidebar = () => {
+const TaskSidebar = ({ userAssignees=[], userMembers=[], onUserAdd, onUserDelete }) => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   
   const handleModalStatusCahnge = () => {
@@ -17,13 +17,28 @@ const TaskSidebar = () => {
   return (
     <div className="task-sidebar">
       <Button type="primary" block size={"large"} onClick={handleModalStatusCahnge}>Assign to...</Button>
-      <Modal width="100%" title={""} visible={isVisibleModal} onOk={handleModalStatusCahnge} destroyOnClose={true} onCancel={handleModalStatusCahnge}>
+      <Modal
+        width="100%"
+        title={""}
+        visible={isVisibleModal}
+        onOk={handleModalStatusCahnge} 
+        destroyOnClose={true} 
+        onCancel={handleModalStatusCahnge}
+      >
         <Row gutter={20}>
           <Col span={12}>
             <Title level={4}>Assign to a User</Title>
-            <CustomSelect targetType={"user"} />
+            <CustomSelect 
+              targetType={"user"}
+              options={userAssignees}
+              onChange={onUserAdd}
+            />
             <Space direction="vertical" style={{width: "100%"}}>
-              <AssigneeList assigneeType={"user"} />
+              <AssigneeList
+                assignees={userMembers}
+                onRemove={onUserDelete}
+                assigneeType={"user"} 
+              />
             </Space>
           </Col>
           <Col span={12}>

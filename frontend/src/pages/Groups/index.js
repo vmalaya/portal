@@ -18,7 +18,7 @@ const Groups = () => {
       setGroups(groups);
     })
     .catch((err) => console.error(err))
-  }, [null]);
+  }, []);
 
   return (
     <Content style={{ 'padding': '20px' }}>
