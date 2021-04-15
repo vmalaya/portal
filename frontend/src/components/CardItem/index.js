@@ -7,7 +7,7 @@ import './styles.scss'
 
 const { Title } = Typography;
 
-const CardItem = ({ title = 'new item', uuid }) => {
+const CardItem = ({ title = 'new item', uuid, type }) => {
   return (
     <div className={'card-wrapper'}>
       <Card hoverable>
@@ -21,7 +21,7 @@ const CardItem = ({ title = 'new item', uuid }) => {
           }
           size={'small'}
          />
-        <Link to={`/tasks/${uuid}`}>
+        <Link to={`/${type}/${uuid}`}>
           <Title level={4} style={{ 'margin': 0 }}>{title}</Title>
         </Link>
       </Card>

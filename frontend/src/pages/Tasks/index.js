@@ -6,7 +6,7 @@ import randomize from 'randomatic'
 
 const { Content } = Layout;
 
-const Tasks = () => {
+const Tasks = ({setNewTask}) => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -15,7 +15,9 @@ const Tasks = () => {
       url: "http://localhost:8080/api/tasks"
     }).then((response) => {
       setTasks(response.data._embedded.tasks);
-    })
+    }).catch((error) => {
+      console.error('an error happend while fetching tasks: ', error);
+    });
   }, []);
 
   const handleButtonClick= () => {
@@ -25,13 +27,16 @@ const Tasks = () => {
       description: "",
       createdBy: "http://localhost:8080/api/teachers/1"
     };
+    
     axios({
       method: "POST",
       url: "http://localhost:8080/api/tasks",
       data
     }).then((response) => {
-      console.log(response)
-    })
+      setNewTask({status: true, uuid: data.uuid});  
+    }).catch((error) => {
+      console.error('an error happend while creating a task: ', error);
+    });
 
   };
 
@@ -45,7 +50,7 @@ const Tasks = () => {
         subTitle=""
       />
       <Button style={{ 'marginBottom': '20px' }} type="primary" onClick={handleButtonClick}>Add Task</Button>
-      <CardsList title={"Tasks"} cards={tasks} />
+      <CardsList title={"Tasks"} cards={tasks} type="tasks" />
     </Content>
   );
 };

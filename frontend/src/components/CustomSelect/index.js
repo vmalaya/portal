@@ -1,6 +1,6 @@
 import React from 'react';
 import { Select } from 'antd';
-import { UserOutlined } from '@ant-design/icons';
+import { UserAddOutlined, UsergroupAddOutlined } from '@ant-design/icons';
 
 const { Option } = Select;
 
@@ -16,15 +16,15 @@ const CustomSelect = ({targetType}) => {
       }
     >
       <Option value="jack">
-        <UserOutlined />
+      {targetType === "user" ? <UserAddOutlined /> : <UsergroupAddOutlined />}
         {" "}Jack
       </Option>
       <Option value="lucy">
-        <UserOutlined />
+      {targetType === "user" ? <UserAddOutlined /> : <UsergroupAddOutlined />}
         {" "}Lucy
       </Option>
       <Option value="tom">
-        <UserOutlined />
+      {targetType === "user" ? <UserAddOutlined /> : <UsergroupAddOutlined />}
         {" "}Tom
       </Option>
     </Select>
