@@ -7,6 +7,7 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -14,25 +15,26 @@ import java.util.List;
 @EqualsAndHashCode
 @RequiredArgsConstructor
 public class Student {
-    @Id
-    private Long id;
+    @Id()
+    @Column(name = "id")
+    private Long uuid;
     @Column(nullable = false)
     private String username;
     @Column(nullable = false)
     private String password;
-    @ManyToMany(mappedBy = "students")
-    private List<Class> classes;
-    @ManyToMany(mappedBy = "students")
-    private List<Task> tasks;
+    @OneToMany(mappedBy = "student")
+    private Set<TaskStudent> tasks;
+    @OneToMany(mappedBy = "student")
+    private List<ClassStudent> classes;
 
     public Student(Long id, String username, String password) {
-        this.id = id;
+        this.uuid = id;
         this.username = username;
         this.password = password;
     }
 
-    public Student(Long id, String username, String password, List<Task> tasks) {
-        this.id = id;
+    public Student(Long id, String username, String password, Set<TaskStudent> tasks) {
+        this.uuid = id;
         this.username = username;
         this.password = password;
         this.tasks = tasks;

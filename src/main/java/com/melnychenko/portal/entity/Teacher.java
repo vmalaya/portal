@@ -15,8 +15,9 @@ import java.util.Set;
 @EqualsAndHashCode
 @RequiredArgsConstructor
 public class Teacher {
-    @Id
-    private Long id;
+    @Id()
+    @Column(name = "id")
+    private Long uuid;
     @Column(nullable = false)
     private String username;
     @Column(nullable = false)
@@ -27,13 +28,13 @@ public class Teacher {
     private Set<Task> tasks;
 
     public Teacher(Long id, String username, String password) {
-        this.id = id;
+        this.uuid = id;
         this.username = username;
         this.password = password;
     }
 
     public Teacher(Long id, String username, String password, List<Class> classes, Set<Task> tasks) {
-        this.id = id;
+        this.uuid = id;
         this.username = username;
         this.password = password;
         this.classes = classes;
