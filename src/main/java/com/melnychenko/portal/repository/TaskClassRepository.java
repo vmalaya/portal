@@ -1,7 +1,7 @@
 package com.melnychenko.portal.repository;
 
-import com.melnychenko.portal.entity.Student;
-import com.melnychenko.portal.entity.TaskStudent;
+import com.melnychenko.portal.entity.Class;
+import com.melnychenko.portal.entity.TaskClass;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,7 +12,7 @@ import java.util.List;
 
 @CrossOrigin
 @RepositoryRestResource
-public interface TaskStudentRepository extends JpaRepository<TaskStudent,Long> {
-    @Query("select t.student from task_student t where t.task.uuid in :uuid")
-    List<Student> findAllStudentByTaskUuid(@Param("uuid") Long uuid);
+public interface TaskClassRepository extends JpaRepository<TaskClass,Long> {
+    @Query("select t.classEntity from task_class t where t.task.uuid in :uuid")
+    List<Class> findAllClassesByTaskUuid(@Param("uuid") Long uuid);
 }

@@ -24,8 +24,8 @@ public class Class {
     private Teacher owner;
     @OneToMany(mappedBy = "classEntity")
     private List<ClassStudent> students;
-    @ManyToMany(mappedBy = "classes")
-    private List<Task> tasks;
+    @OneToMany(mappedBy = "classEntity")
+    private List<TaskClass> tasks;
 
     public Class(Long id, String name) {
         this.uuid = id;
