@@ -9,7 +9,7 @@ Application uses Spring Boot + React.js as main backend + frontend technologies.
 mvnw spring-boot:run
 
 // test
-curl localhost:8080/api/
+curl localhost:8080/api/ -u albus:111111
 curl localhost:8080/api/students/1
 
 // to save a new group

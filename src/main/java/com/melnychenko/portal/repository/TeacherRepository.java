@@ -8,4 +8,5 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin
 @RepositoryRestResource
 public interface TeacherRepository extends CrudRepository<Teacher,Long> {
+    Teacher findByUsername(String username);
 }
