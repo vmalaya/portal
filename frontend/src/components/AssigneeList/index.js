@@ -18,13 +18,13 @@ return (
       dataSource={assignees}
       renderItem={item => (
         <List.Item
-          actions={[<Button danger default onClick={() => onRemove((item.uuid || item.id))}>Remove</Button>]}
+          actions={[<Button danger default onClick={() => onRemove((item.uuid))}>Remove</Button>]}
         >
           <List.Item.Meta
             avatar={
               <Avatar icon={assigneeType === "user" ? <UserAddOutlined /> : <UsergroupAddOutlined />} />
             }
-            title={item.username}
+            title={item.username || item.name}
           />
         </List.Item>
       )}

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col } from 'antd';
 import axios from 'axios';
+import randomize from 'randomatic';
 import TaskForm from '../../components/TaskForm';
 import TaskSidebar from '../../components/TaskSidebar';
 
@@ -10,8 +11,11 @@ const Task = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [initialNormalizing, setInitialNormalizing] = useState(false);
+  const [initialGroupNormalizing, setInitialGroupNormalizing] = useState(false);
   const [userAssignees, setUserAssignees] = useState([]);
   const [userMembers, setUserMembers] = useState([]);
+  const [groupMembers, setGroupMembers] = useState([]);
+  const [groupAssignees, setGroupAssignees] = useState([]);
   const { taskId } = useParams();
 
   useEffect(() => {
@@ -39,12 +43,29 @@ const Task = () => {
     // Send request to get all assigned members.
     axios({
       method: "GET",
-      url: `http://localhost:8080/api/tasks/${taskId}/students`        
+      url: `http://localhost:8080/api/taskStudents/search/findAllStudentByTaskUuid?uuid=${taskId}`        
     }).then((response) => {
       const members = response.data._embedded.students;
       setUserMembers(members);
       setInitialNormalizing(true);
     }).catch(err => console.error("an error occurred while fetching members", err));
+
+    axios({
+      method: "GET",
+      url : `http://localhost:8080/api/taskClasses/search/findAllClassesByTaskUuid?uuid=${taskId}`
+    }).then(resp => {
+      const groupMembers = resp.data._embedded.classes;
+      setGroupMembers(groupMembers);
+    }).catch(err => console.error("an error occurred while fetching member groups", err));
+
+    axios({
+      method: "GET",
+      url: "http://localhost:8080/api/classes"        
+    }).then((response) => {
+      const assignees = response.data._embedded.classes;
+      setGroupAssignees(assignees);
+      setInitialGroupNormalizing(true);
+    }).catch(err => console.error("an error occurred while fetching assignees", err));
   }, []);
 
   useEffect(() => {
@@ -61,20 +82,34 @@ const Task = () => {
     }
   }, [userAssignees, userMembers]);
 
+  useEffect(() => {
+    if ( initialGroupNormalizing && groupAssignees.length && groupMembers.length) {
+      let filteredAssignees;
+       groupMembers.forEach((member) => {
+        filteredAssignees = groupMembers.filter(
+          assignee => ((assignee.uuid || assignee.id) !== (member.uuid || member.id))
+        );
+      });
+
+      setGroupAssignees(filteredAssignees);
+      setInitialGroupNormalizing(false);
+    }
+  }, [groupAssignees, groupMembers]);
+
   const handleAddUserMember = (assigneeUuid) => {
     if (userAssignees.length) {
       const assignee = userAssignees.find(
         (assignee) =>( (assignee.uuid || assignee.id) === assigneeUuid)
       );
       setUserMembers([...userMembers, assignee]);
-
       axios({
         method: "POST",
-        url: `http://localhost:8080/api/tasks/${taskId}/students`,
+        url: `http://localhost:8080/api/taskStudents`,
         data: { 
-          uuid: assignee.id || assignee.uuid,
-          username: assignee.username
-        }    
+          uuid: randomize('0', 6),
+          student: assignee._links.self.href,
+          task: `http://localhost:8080/api/tasks/${taskId}`
+        }
       }).catch(err => {
           console.error(err);
         });
@@ -98,6 +133,32 @@ const Task = () => {
     setUserMembers(filteredMembers);
   };
 
+  const handleAddGroupMember = (groupAssigneeUuid) => {
+    if (groupAssignees.length) {
+      const assignee = groupAssignees.find(
+        (assignee) =>(assignee.uuid === groupAssigneeUuid)
+      );
+      setGroupMembers([...groupMembers, assignee]);
+      console.log(assignee)
+      axios({
+        method: "POST",
+        url: `http://localhost:8080/api/taskClasses`,
+        data: { 
+          uuid: randomize('0', 6),
+          classEntity: assignee._links.self.href,
+          task: `http://localhost:8080/api/tasks/${taskId}`
+        }
+      }).catch(err => {
+          console.error(err);
+        });
+
+      const filteredAssignees = groupAssignees.filter(
+        assignee => ((assignee.uuid || assignee.id) !== groupAssigneeUuid)
+      );
+      setGroupAssignees(filteredAssignees);
+    }
+  }
+
   return (
 
         <Row>
@@ -110,6 +171,9 @@ const Task = () => {
               userMembers={userMembers}
               onUserAdd={handleAddUserMember}
               onUserDelete={handleUserMemberRemoval}
+              groupMembers={groupMembers}
+              groupAssignees={groupAssignees}
+              onGroupAdd={handleAddGroupMember}
             />
           </Col>
         </Row>

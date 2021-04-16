@@ -7,7 +7,7 @@ import './styles.scss';
 
 const { Title } = Typography;
 
-const TaskSidebar = ({ userAssignees=[], userMembers=[], onUserAdd, onUserDelete }) => {
+const TaskSidebar = ({ userAssignees=[], userMembers=[], onUserAdd, onUserDelete, groupAssignees=[], groupMembers=[], onGroupAdd }) => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   
   const handleModalStatusCahnge = () => {
@@ -24,6 +24,7 @@ const TaskSidebar = ({ userAssignees=[], userMembers=[], onUserAdd, onUserDelete
         onOk={handleModalStatusCahnge} 
         destroyOnClose={true} 
         onCancel={handleModalStatusCahnge}
+        footer={[<Button type="primary" onClick={handleModalStatusCahnge}>Close</Button>]}
       >
         <Row gutter={20}>
           <Col span={12}>
@@ -43,9 +44,16 @@ const TaskSidebar = ({ userAssignees=[], userMembers=[], onUserAdd, onUserDelete
           </Col>
           <Col span={12}>
             <Title level={4}>Assign to a Group</Title>
-            <CustomSelect targetType={"group"} />
+            <CustomSelect
+              targetType={"group"}
+              options={groupAssignees} 
+              onChange={onGroupAdd}
+            />
             <Space direction="vertical" style={{width: "100%"}}>
-              <AssigneeList assigneeType={"group"} />
+              <AssigneeList
+                assigneeType={"group"}
+                assignees={groupMembers}
+              />
             </Space>
           </Col>
         </Row>
