@@ -139,7 +139,6 @@ const Task = () => {
         (assignee) =>(assignee.uuid === groupAssigneeUuid)
       );
       setGroupMembers([...groupMembers, assignee]);
-      console.log(assignee)
       axios({
         method: "POST",
         url: `http://localhost:8080/api/taskClasses`,
@@ -159,11 +158,32 @@ const Task = () => {
     }
   }
 
+  const handleDescritionUpdate = (e) => {
+    setDescription(e.target.value);
+  }
+
+  const handleTitleUpdate = (e) => {
+    setTitle(e.target.value);
+  }
+
+  const handleTaskInfoUpdate = () => {
+    axios({
+      method: "PUT",
+      url:`http://localhost:8080/api/tasks/${taskId}`,
+      data: { title, description }
+    });
+  }
+
   return (
 
         <Row>
           <Col span={16}>
-            <TaskForm title={title} description={description} />
+            <TaskForm title={title}
+              description={description}
+              onDescriptionUpdate={handleDescritionUpdate} 
+              onTitleUpdate={handleTitleUpdate}
+              onTaskInfoUpdate={handleTaskInfoUpdate}
+            />
           </Col>
           <Col span={8}>
             <TaskSidebar
