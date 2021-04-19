@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RepositoryRestResource
 public interface ClassStudentRepository extends CrudRepository<ClassStudent,Long> {
     @Query("select c.student from class_student c where c.classEntity.uuid in :uuid")

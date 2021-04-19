@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RepositoryRestResource
 public interface TaskStudentRepository extends JpaRepository<TaskStudent,Long> {
     @Query("select t.student from task_student t where t.task.uuid in :uuid")
