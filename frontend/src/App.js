@@ -13,7 +13,7 @@ import "antd/dist/antd.min.css";
 const App = () => {
   const { pathname } = useLocation();
   const [newTask, setNewTask] = useState({status: false, uuid: ""});
-  
+  const [newGroup, setNewGroup] = useState({status: false, uuid: ""});
 
   return (
     <Layout style={{"minHeight": "100vh"}}>
@@ -25,7 +25,12 @@ const App = () => {
            : 
            <Tasks setNewTask={setNewTask}/>
            } />
-        <Route exact path={"/groups"} component={Groups} />
+        <Route exact path={"/groups"} render={() => 
+          newGroup.status ?
+          <Redirect to={`/groups/${newGroup.uuid}`} />
+          :
+          <Groups setNewGroup={setNewGroup} />
+        } />
         <Route exact={true} path={"/tasks/:taskId"} component={Task} />
         <Route exact={true} path={"/groups/:groupId"} component={Group} />
         <Route exact={true} path={"/sign-in"} component={SignIn} />

@@ -20,7 +20,7 @@ const Tasks = ({setNewTask}) => {
     });
   }, []);
 
-  const handleButtonClick= () => {
+  const handleButtonClick = () => {
     const data = {
       uuid: randomize('0', 6),
       title: "",
@@ -37,7 +37,6 @@ const Tasks = ({setNewTask}) => {
     }).catch((error) => {
       console.error('an error happend while creating a task: ', error);
     });
-
   };
 
   return (

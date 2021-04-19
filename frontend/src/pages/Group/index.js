@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Row, Col, Typography, PageHeader, Layout } from 'antd';
+import axios from 'axios';
+import randomize from 'randomatic';
+
 import CustomSelect from '../../components/CustomSelect';
 import AssigneeList from '../../components/AssigneeList';
-import axios from 'axios';
 
 import './styles.scss';
 
@@ -24,7 +26,7 @@ const Group = () => {
         url: "http://localhost:8080/api/students"        
       }).then((response) => {
         const assignees = response.data._embedded.students;
-        setAssignees(assignees);
+        setAssignees(assignees || []);
         setInitialNormalizing(true);
       }).catch(err => console.error("an error occurred while fetching assignees", err));
 
@@ -33,16 +35,15 @@ const Group = () => {
         url: `http://localhost:8080/api/classes/${groupId}`        
       }).then((response) => {
         const groupData = response.data;
-        setGroup(groupData);
+        setGroup(groupData || {});
       }).catch(err => console.error("an error occurred while fetching group data", err));
 
       axios({
         method: "GET",
-        url: `http://localhost:8080/api/classes/${groupId}/students`        
+        url: `http://localhost:8080/api/classStudents/search/findAllStudentByClassUuid?uuid=${groupId}`        
       }).then((response) => {
-        console.log(response)
         const members = response.data._embedded.students;
-        setMembers(members);
+        setMembers(members || []);
         setInitialNormalizing(true);
       }).catch(err => console.error("an error occurred while fetching members", err));
   }, []);
@@ -52,7 +53,7 @@ const Group = () => {
       let filteredAssignees;
        members.forEach((member) => {
         filteredAssignees = assignees.filter(
-          assignee => ((assignee.uuid || assignee.id) !== (member.uuid || member.id))
+          assignee => ((assignee.uuid ) !== (member.uuid))
         );
       });
 
@@ -64,23 +65,24 @@ const Group = () => {
   const handleAddMember = (assigneeUuid) => {
     if (assignees.length) {
       const assignee = assignees.find(
-        (assignee) =>( (assignee.uuid || assignee.id) === assigneeUuid)
+        (assignee) =>( (assignee.uuid) === assigneeUuid)
       );
       setMembers([...members, assignee]);
 
       axios({
         method: "POST",
-        url: `http://localhost:8080/api/classes/${groupId}/students`,
+        url: `http://localhost:8080/api/classStudents`,
         data: { 
-          uuid: assignee.id || assignee.uuid,
-          username: assignee.username
+          uuid: randomize('0', 6),
+          classEntity: `http://localhost:8080/api/classes/${groupId}`,
+          student: `http://localhost:8080/api/students/${assignee.uuid}`,
         }    
       }).catch(err => {
           console.error(err);
         });
 
       const filteredAssignees = assignees.filter(
-        assignee => ((assignee.uuid || assignee.id) !== assigneeUuid)
+        assignee => ((assignee.uuid) !== assigneeUuid)
       );
       setAssignees(filteredAssignees);
     }
@@ -88,12 +90,12 @@ const Group = () => {
 
   const handleMemberRemoval = (memberUuid) => {
     const member = members.find(
-      (member) =>( (member.uuid || member.id) === memberUuid)
+      (member) =>( (member.uuid) === memberUuid)
     );
     setAssignees([...assignees, member]);
     
     const filteredMembers = members.filter(
-      member => ((member.uuid || member.id) !== memberUuid)
+      member => ((member.uuid) !== memberUuid)
     );
     setMembers(filteredMembers);
   };

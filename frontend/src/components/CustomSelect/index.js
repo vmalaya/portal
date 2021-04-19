@@ -17,7 +17,7 @@ const CustomSelect = ({ targetType, options, onChange }) => {
       }
     >
       {options && options.length && options.map((option) => (
-        <Option value={option.uuid || option.id}>
+        <Option value={option.uuid} key={option.uuid}>
           {targetType === "user" ? <UserAddOutlined /> : <UsergroupAddOutlined />}
           {" "}{option.username || option.name}
         </Option>
