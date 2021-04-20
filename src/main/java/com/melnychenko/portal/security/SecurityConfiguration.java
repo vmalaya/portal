@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.cors.CorsConfiguration;
 
 @Configuration
 @EnableConfigurationProperties
@@ -20,7 +21,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     @CrossOrigin("*")
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues())
+            .and().csrf().disable()
             .authorizeRequests().anyRequest().authenticated()
             .and().httpBasic()
             .and().sessionManagement().disable();
