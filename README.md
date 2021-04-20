@@ -25,7 +25,7 @@ curl -X POST http://localhost:8080/api/taskStudents -d "{\"uuid\": \"1\", \"stud
 curl -X POST http://localhost:8080/api/taskClasses -d "{\"uuid\": \"1\", \"classEntity\": \"http://localhost:8080/api/classes/1\", \"task\": \"http://localhost:8080/api/tasks/1\"}" -H "Content-Type:application/json"
 
 // add user to a class
-curl -X POST http://localhost:8080/api/classStudents -d "{\"uuid\": \"\", \"classEntity\": \"http://localhost:8080/api/classes/1\", \"student\": \"http://localhost:8080/api/students/1\"}" -H "Content-Type:application/json"
+curl -X POST http://localhost:8080/api/classStudents -d "{\"uuid\": \"1\", \"classEntity\": \"http://localhost:8080/api/classes/1\", \"student\": \"http://localhost:8080/api/students/1\"}" -H "Content-Type:application/json"
 
 // find all student assigned to the task
 curl http://localhost:8080/api/taskStudents/search/findAllStudentByTaskUuid?uuid=1
