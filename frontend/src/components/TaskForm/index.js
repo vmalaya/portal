@@ -4,7 +4,7 @@ import { Button, Col, Form, Input, Layout, PageHeader, Row, Space } from 'antd';
 const { TextArea } = Input;
 const { Content } = Layout;
 
-const TaskForm = ({ title, description, onDescriptionUpdate, onTitleUpdate, onTaskInfoUpdate }) => {
+const TaskForm = ({ title, description, onDescriptionUpdate, onTitleUpdate, onTaskInfoUpdate, setIsToUpdateInfo }) => {
   return (
     <Content style={{ 'padding': '20px' }}>
       <PageHeader
@@ -30,6 +30,7 @@ const TaskForm = ({ title, description, onDescriptionUpdate, onTitleUpdate, onTa
           <Row>
             <Col span={8}/>
             <Col span={8} style={{ 'display': 'flex', 'justifyContent': 'center' }}>
+              <Button style={{marginRight: 10}} type={'default'} onClick={()=>setIsToUpdateInfo(false)}> Cancel </Button>
               <Button htmlType={"submit"} type={'primary'}> Save Task </Button>
             </Col>
             <Col span={8}/>

@@ -9,18 +9,21 @@ const tailLayout = {
 
 const { Title } = Typography;
 
-const SignIn = () => {
+const SignIn = ({ setUserStatus }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
   const handleSubmit = () => {
     if (username.length && password.length) {
-      const token = btoa(`${username}:${password}`);
-
       axios({
         method: 'GET',
         url: `http://localhost:8080/api`,
         auth: { username, password },
+      }).then((resp) => {
+        if (+resp.status === 200) {
+          const token = btoa(`${username}:${password}`)
+          setUserStatus({token});
+        }
       });
     }
   };

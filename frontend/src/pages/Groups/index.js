@@ -7,13 +7,16 @@ import CardsList from '../../components/CardsList';
 
 const { Content } = Layout;
 
-const Groups = ({ setNewGroup }) => {
+const Groups = ({ setNewGroup, userAuthorized }) => {
   const [groups, setGroups] = useState([]);
 
   useEffect(() =>{
     axios({
       method: "GET",
-      url: "http://localhost:8080/api/classes"
+      url: "http://localhost:8080/api/classes",
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      }
     })
     .then((resp) => {
       const groups = resp.data._embedded.classes;
@@ -32,8 +35,11 @@ const Groups = ({ setNewGroup }) => {
     axios({
       method: "POST",
       url: "http://localhost:8080/api/classes",
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      },
       data
-    }).then((response) => {
+    }).then(() => {
       setNewGroup({status: true, uuid: data.uuid});  
     }).catch((error) => {
       console.error('an error happend while creating a task: ', error);

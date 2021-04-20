@@ -6,13 +6,16 @@ import randomize from 'randomatic'
 
 const { Content } = Layout;
 
-const Tasks = ({setNewTask}) => {
+const Tasks = ({setNewTask, userAuthorized}) => {
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     axios({
       method: "GET",
-      url: "http://localhost:8080/api/tasks"
+      url: "http://localhost:8080/api/tasks",
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      }
     }).then((response) => {
       setTasks(response.data._embedded.tasks);
     }).catch((error) => {
@@ -31,8 +34,11 @@ const Tasks = ({setNewTask}) => {
     axios({
       method: "POST",
       url: "http://localhost:8080/api/tasks",
-      data
-    }).then((response) => {
+      data,
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      }
+    }).then(() => {
       setNewTask({status: true, uuid: data.uuid});  
     }).catch((error) => {
       console.error('an error happend while creating a task: ', error);

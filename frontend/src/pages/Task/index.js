@@ -5,9 +5,10 @@ import axios from 'axios';
 import randomize from 'randomatic';
 import TaskForm from '../../components/TaskForm';
 import TaskSidebar from '../../components/TaskSidebar';
+import TaskInfo from '../../components/TaskInfo';
 
 
-const Task = () => {
+const Task = ({userAuthorized}) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [initialNormalizing, setInitialNormalizing] = useState(false);
@@ -16,6 +17,7 @@ const Task = () => {
   const [userMembers, setUserMembers] = useState([]);
   const [groupMembers, setGroupMembers] = useState([]);
   const [groupAssignees, setGroupAssignees] = useState([]);
+  const [isToUpdateInfo, setIsToUpdateInfo] = useState(false);
   const { taskId } = useParams();
 
   useEffect(() => {
@@ -23,7 +25,10 @@ const Task = () => {
     // Send request to get task's title and description.
     axios({
       method: "GET",
-      url: `http://localhost:8080/api/tasks/${taskId}`
+      url: `http://localhost:8080/api/tasks/${taskId}`,
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      }
     }).then((resp) => {
       const { title, description } = resp.data;
       setTitle(title);
@@ -33,7 +38,10 @@ const Task = () => {
     // Send request to get all available potential assignees.
     axios({
       method: "GET",
-      url: "http://localhost:8080/api/students"        
+      url: "http://localhost:8080/api/students",
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      }   
     }).then((response) => {
       const assignees = response.data._embedded.students;
       setUserAssignees(assignees);
@@ -43,7 +51,10 @@ const Task = () => {
     // Send request to get all assigned members.
     axios({
       method: "GET",
-      url: `http://localhost:8080/api/taskStudents/search/findAllStudentByTaskUuid?uuid=${taskId}`        
+      url: `http://localhost:8080/api/taskStudents/search/findAllStudentByTaskUuid?uuid=${taskId}`,
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      }     
     }).then((response) => {
       const members = response.data._embedded.students;
       setUserMembers(members);
@@ -52,7 +63,10 @@ const Task = () => {
 
     axios({
       method: "GET",
-      url : `http://localhost:8080/api/taskClasses/search/findAllClassesByTaskUuid?uuid=${taskId}`
+      url : `http://localhost:8080/api/taskClasses/search/findAllClassesByTaskUuid?uuid=${taskId}`,
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      }
     }).then(resp => {
       const groupMembers = resp.data._embedded.classes;
       setGroupMembers(groupMembers);
@@ -60,7 +74,10 @@ const Task = () => {
 
     axios({
       method: "GET",
-      url: "http://localhost:8080/api/classes"        
+      url: "http://localhost:8080/api/classes",
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      } 
     }).then((response) => {
       const assignees = response.data._embedded.classes;
       setGroupAssignees(assignees);
@@ -105,6 +122,9 @@ const Task = () => {
       axios({
         method: "POST",
         url: `http://localhost:8080/api/taskStudents`,
+        headers: {
+          Authorization: `Basic ${userAuthorized.token}`
+        },
         data: { 
           uuid: randomize('0', 6),
           student: assignee._links.self.href,
@@ -142,6 +162,9 @@ const Task = () => {
       axios({
         method: "POST",
         url: `http://localhost:8080/api/taskClasses`,
+        headers: {
+          Authorization: `Basic ${userAuthorized.token}`
+        },
         data: { 
           uuid: randomize('0', 6),
           classEntity: assignee._links.self.href,
@@ -170,33 +193,44 @@ const Task = () => {
     axios({
       method: "PUT",
       url:`http://localhost:8080/api/tasks/${taskId}`,
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      },
       data: { title, description }
-    });
+    }).then(() => setIsToUpdateInfo(false));
   }
 
   return (
-
-        <Row>
-          <Col span={16}>
-            <TaskForm title={title}
-              description={description}
-              onDescriptionUpdate={handleDescritionUpdate} 
-              onTitleUpdate={handleTitleUpdate}
-              onTaskInfoUpdate={handleTaskInfoUpdate}
-            />
-          </Col>
-          <Col span={8}>
-            <TaskSidebar
-              userAssignees={userAssignees}
-              userMembers={userMembers}
-              onUserAdd={handleAddUserMember}
-              onUserDelete={handleUserMemberRemoval}
-              groupMembers={groupMembers}
-              groupAssignees={groupAssignees}
-              onGroupAdd={handleAddGroupMember}
-            />
-          </Col>
-        </Row>
+    <Row>
+      <Col span={16}>
+      {isToUpdateInfo ?
+        <TaskForm title={title}
+          description={description}
+          onDescriptionUpdate={handleDescritionUpdate} 
+          onTitleUpdate={handleTitleUpdate}
+          onTaskInfoUpdate={handleTaskInfoUpdate}
+          setIsToUpdateInfo={setIsToUpdateInfo}
+        />
+        :
+        <TaskInfo 
+          title={title}
+          description={description}
+          setIsToUpdateInfo={setIsToUpdateInfo}
+        />
+        }
+      </Col>
+      <Col span={8}>
+        <TaskSidebar
+          userAssignees={userAssignees}
+          userMembers={userMembers}
+          onUserAdd={handleAddUserMember}
+          onUserDelete={handleUserMemberRemoval}
+          groupMembers={groupMembers}
+          groupAssignees={groupAssignees}
+          onGroupAdd={handleAddGroupMember}
+        />
+      </Col>
+    </Row>
 
   )
 };

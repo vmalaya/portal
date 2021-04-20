@@ -12,7 +12,7 @@ import './styles.scss';
 const { Title } = Typography;
 const { Content } = Layout;
 
-const Group = () => {
+const Group = ({ userAuthorized }) => {
   const {groupId} = useParams();
 
   const [assignees, setAssignees] = useState([]);
@@ -23,7 +23,10 @@ const Group = () => {
   useEffect(() => {
       axios({
         method: "GET",
-        url: "http://localhost:8080/api/students"        
+        url: "http://localhost:8080/api/students"     ,
+        headers: {
+          Authorization: `Basic ${userAuthorized.token}`
+        }   
       }).then((response) => {
         const assignees = response.data._embedded.students;
         setAssignees(assignees || []);
@@ -32,7 +35,10 @@ const Group = () => {
 
       axios({
         method: "GET",
-        url: `http://localhost:8080/api/classes/${groupId}`        
+        url: `http://localhost:8080/api/classes/${groupId}`,
+        headers: {
+          Authorization: `Basic ${userAuthorized.token}`
+        }   
       }).then((response) => {
         const groupData = response.data;
         setGroup(groupData || {});
@@ -40,7 +46,10 @@ const Group = () => {
 
       axios({
         method: "GET",
-        url: `http://localhost:8080/api/classStudents/search/findAllStudentByClassUuid?uuid=${groupId}`        
+        url: `http://localhost:8080/api/classStudents/search/findAllStudentByClassUuid?uuid=${groupId}`,
+        headers: {
+          Authorization: `Basic ${userAuthorized.token}`
+        }     
       }).then((response) => {
         const members = response.data._embedded.students;
         setMembers(members || []);
@@ -76,7 +85,10 @@ const Group = () => {
           uuid: randomize('0', 6),
           classEntity: `http://localhost:8080/api/classes/${groupId}`,
           student: `http://localhost:8080/api/students/${assignee.uuid}`,
-        }    
+        },
+        headers: {
+          Authorization: `Basic ${userAuthorized.token}`
+        }  
       }).catch(err => {
           console.error(err);
         });
