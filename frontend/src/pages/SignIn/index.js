@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Form, Input, Button, Row, Col, Typography } from 'antd';
+
+import axios from 'axios';
 
 const tailLayout = {
   wrapperCol: { span: 24, offset: 4 },
@@ -8,6 +10,24 @@ const tailLayout = {
 const { Title } = Typography;
 
 const SignIn = () => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleSubmit = () => {
+    if (username.length && password.length) {
+      const token = btoa(`${username}:${password}`);
+
+      axios({
+        method: 'GET',
+        url: `http://localhost:8080/api`,
+        auth: { username, password },
+      });
+    }
+  };
+
+  const handleInputChange = (text, isUsername) => {
+    isUsername ? setUsername(text) : setPassword(text);
+  };
 
   return (
     <Row justify="center" align="middle" style={{paddingTop: '20vh'}}>
@@ -18,14 +38,15 @@ const SignIn = () => {
           name="basic"
           labelCol={{span: 4}}
           initialValues={{ remember: true }}
+          onFinish={handleSubmit}
           >
-            <Form.Item {...tailLayout}><Title  level="1">Sign In</Title></Form.Item>
+            <Form.Item {...tailLayout}><Title  level={1}>Sign In</Title></Form.Item>
             <Form.Item
               label="Username"
               name="username"
               rules={[{ required: true, message: 'Please input your username!' }]}
             >
-              <Input size="large" />
+              <Input size="large" onChange={(e) => handleInputChange(e.target.value, true)} />
             </Form.Item>
 
             <Form.Item
@@ -33,7 +54,7 @@ const SignIn = () => {
               name="password"
               rules={[{ required: true, message: 'Please input your password!' }]}
             >
-              <Input.Password size="large" />
+              <Input.Password size="large" onChange={(e) => handleInputChange(e.target.value)} />
             </Form.Item>
 
             <Form.Item {...tailLayout} >
