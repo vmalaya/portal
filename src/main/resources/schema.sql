@@ -46,5 +46,5 @@ create table if not exists class_student(
     class_id int,
     student_id int,
     foreign key (class_id) references class(id),
-    foreign key (student_id) references class(id)
+    foreign key (student_id) references student(id)
 );
