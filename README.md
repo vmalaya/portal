@@ -9,32 +9,40 @@ Application uses Spring Boot + React.js as main backend + frontend technologies.
 mvnw spring-boot:run
 
 // test
-curl localhost:8080/api/ -u albus:111111
-curl localhost:8080/api/students/1
+curl localhost:8080/api/ -u albus:111111 
+curl localhost:8080/api/students/1 -u albus:111111
 
 // to save a new group
-curl -X POST localhost:8080/api/classes -d "{\"uuid\": \"2\", \"name\": \"hufflepuf\", \"owner\": \"http://localhost:8080/api/teachers/1\"}" -H "Content-Type:application/json"
+curl -X POST localhost:8080/api/classes -d "{\"uuid\": \"2\", \"name\": \"hufflepuf\", \"owner\": \"http://localhost:8080/api/teachers/1\"}" -H "Content-Type:application/json" -u albus:111111
 
 // to update task 
-curl -X PUT -H "Content-Type:application/json" http://localhost:8080/api/tasks/1 -d "{\"title\": \"Kill dragon\", \"description\": \"Try to kill dragon in order to survive among mermaids\"}"
+curl -X PUT -H "Content-Type:application/json" http://localhost:8080/api/tasks/1 -d "{\"title\": \"Kill dragon\", \"description\": \"Try to kill dragon in order to survive among mermaids\"}" -u albus:111111
 
 // assign task to a student
-curl -X POST http://localhost:8080/api/taskStudents -d "{\"uuid\": \"1\", \"student\": \"http://localhost:8080/api/students/1\", \"task\": \"http://localhost:8080/api/tasks/1\"}" -H "Content-Type:application/json"
+curl -X POST http://localhost:8080/api/taskStudents -d "{\"uuid\": \"1\", \"student\": \"http://localhost:8080/api/students/1\", \"task\": \"http://localhost:8080/api/tasks/1\"}" -H "Content-Type:application/json" -u albus:111111
 
 // assign task to the class
-curl -X POST http://localhost:8080/api/taskClasses -d "{\"uuid\": \"1\", \"classEntity\": \"http://localhost:8080/api/classes/1\", \"task\": \"http://localhost:8080/api/tasks/1\"}" -H "Content-Type:application/json"
+curl -X POST http://localhost:8080/api/taskClasses -d "{\"uuid\": \"1\", \"classEntity\": \"http://localhost:8080/api/classes/1\", \"task\": \"http://localhost:8080/api/tasks/1\"}" -H "Content-Type:application/json" -u albus:111111
 
 // add user to a class
-curl -X POST http://localhost:8080/api/classStudents -d "{\"uuid\": \"1\", \"classEntity\": \"http://localhost:8080/api/classes/1\", \"student\": \"http://localhost:8080/api/students/1\"}" -H "Content-Type:application/json"
+curl -X POST http://localhost:8080/api/classStudents -d "{\"uuid\": \"1\", \"classEntity\": \"http://localhost:8080/api/classes/1\", \"student\": \"http://localhost:8080/api/students/1\"}" -H "Content-Type:application/json" -u albus:111111
 
 // find all student assigned to the task
-curl http://localhost:8080/api/taskStudents/search/findAllStudentByTaskUuid?uuid=1
+curl http://localhost:8080/api/taskStudents/search/findAllStudentByTaskUuid?uuid=1 -u albus:111111
 
 // find all students in the class
-curl http://localhost:8080/api/classStudents/search/findAllStudentByClassUuid?uuid=1
+curl http://localhost:8080/api/classStudents/search/findAllStudentByClassUuid?uuid=1 -u albus:111111
 
 // find all classes assinged to the task
-curl http://localhost:8080/api/taskClasses/search/findAllClassesByTaskUuid?uuid=1
+curl http://localhost:8080/api/taskClasses/search/findAllClassesByTaskUuid?uuid=1 -u albus:111111
+// remove student from task
+curl -X DELETE http://localhost:8080/api/taskStudents/{task_student_id} -u albus:111111
+// remove student from class
+curl -X DELETE http://localhost:8080/api/classStudents/{class_student_id} -u albus:111111
+// remove class from task
+curl -X DELETE http://localhost:8080/api/taskClasses/{task_class_id} -u albus:111111
+// remove class
+curl -X DELETE localhost:8080/api/classes/{class_id} -u albus:111111
 ```
 
 ## Database design

@@ -12,7 +12,7 @@ import java.util.List;
 
 @CrossOrigin("*")
 @RepositoryRestResource
-public interface TaskStudentRepository extends JpaRepository<TaskStudent,Long> {
+public interface TaskStudentRepository extends JpaRepository<TaskStudent, Long> {
     @Query("select t.student from task_student t where t.task.uuid in :uuid")
     List<Student> findAllStudentByTaskUuid(@Param("uuid") Long uuid);
 }
