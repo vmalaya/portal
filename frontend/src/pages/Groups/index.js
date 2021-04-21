@@ -46,6 +46,19 @@ const Groups = ({ setNewGroup, userAuthorized }) => {
     });
   }
 
+  const handleGroupRemoval = (uuid) => {
+    const filteredGroups = groups.filter((group) => group.uuid !== uuid );
+    axios({
+      method: "DELETE",
+      url: `http://localhost:8080/api/classes/${uuid}`,
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      }
+    }).then(() => {
+      setGroups(filteredGroups);
+    })
+  }
+
   return (
     <Content style={{ 'padding': '20px' }}>
       <PageHeader
@@ -56,7 +69,7 @@ const Groups = ({ setNewGroup, userAuthorized }) => {
         subTitle=""
       />
       <Button style={{ 'marginBottom': '20px'}} type="primary" onClick={handleGroupCreation}>Create New Group</Button>
-      <CardsList title={"Groups"} cards={groups} type="groups"/>
+      <CardsList title={"Groups"} cards={groups} type="groups" onRemove={handleGroupRemoval} />
     </Content>
    );
 };

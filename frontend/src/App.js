@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <Layout style={{"minHeight": "100vh"}}>
-      { pathname.includes('/sign-in') ? null : <Navigation /> }
+      { pathname.includes('/sign-in') ? null : <Navigation setUserStatus={setUserStatus} /> }
       <Switch>
         <CustomRoute isToRedirect={!userAuthorized} exact={true} path={"/"} renderFunc={
           () => newTask.status ? 

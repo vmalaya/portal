@@ -7,7 +7,7 @@ import './styles.scss';
 
 const { Title } = Typography;
 
-const TaskSidebar = ({ userAssignees=[], userMembers=[], onUserAdd, onUserDelete, groupAssignees=[], groupMembers=[], onGroupAdd }) => {
+const TaskSidebar = ({ userAssignees=[], userMembers=[], onUserAdd, onUserDelete, groupAssignees=[], groupMembers=[], onGroupAdd, onGroupDelete }) => {
   const [isVisibleModal, setIsVisibleModal] = useState(false);
   
   const handleModalStatusCahnge = () => {
@@ -17,6 +17,27 @@ const TaskSidebar = ({ userAssignees=[], userMembers=[], onUserAdd, onUserDelete
   return (
     <div className="task-sidebar">
       <Button type="primary" block size={"large"} onClick={handleModalStatusCahnge}>Assign to...</Button>
+
+      <Space direction="vertical" style={{width: "100%"}}>
+        <AssigneeList
+          assignees={userMembers}
+          onRemove={onUserDelete}
+          assigneeType={"user"}
+          enableShowMore={groupMembers.length > 5}
+          onShowMore={() => {setIsVisibleModal(true)}}
+        />
+      </Space>
+
+      <Space direction="vertical" style={{width: "100%"}}>
+        <AssigneeList
+          assigneeType={"group"}
+          onRemove={onGroupDelete}
+          assignees={groupMembers}
+          enableShowMore={groupMembers.length > 5}
+          onShowMore={() => {setIsVisibleModal(true)}}
+        />
+      </Space>
+
       <Modal
         width="100%"
         title={""}
@@ -53,6 +74,7 @@ const TaskSidebar = ({ userAssignees=[], userMembers=[], onUserAdd, onUserDelete
               <AssigneeList
                 assigneeType={"group"}
                 assignees={groupMembers}
+                onRemove={onGroupDelete}
               />
             </Space>
           </Col>

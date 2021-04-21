@@ -7,7 +7,7 @@ import './styles.scss';
 
 const { Title } = Typography;
 
-const AssigneeList = ({ assigneeType, assignees, onRemove }) => {
+const AssigneeList = ({ assigneeType, assignees, onRemove, enableShowMore, onShowMore }) => {
 
 return (
 <div>
@@ -29,6 +29,17 @@ return (
         </List.Item>
       )}
     />
+    {
+      enableShowMore && 
+        <Button 
+          style={{margin: "20px 0 0 auto", display: "block"}}
+          type={"primary"}
+          onClick={onShowMore}
+          
+        >
+          Show more
+        </Button>
+    }
   </div>
   
 </div>

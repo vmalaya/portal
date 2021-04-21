@@ -87,13 +87,13 @@ const Task = ({userAuthorized}) => {
 
   useEffect(() => {
     if ( initialNormalizing && userAssignees.length && userMembers.length) {
-      let filteredAssignees;
-       userMembers.forEach((member) => {
-        filteredAssignees = userAssignees.filter(
-          assignee => ((assignee.uuid || assignee.id) !== (member.uuid || member.id))
-        );
-      });
-
+      const filteredAssignees = userAssignees.reduce((acc, assignee) => {
+        const isMemberAlready = userMembers.some(member => member.uuid === assignee.uuid);
+        if (!isMemberAlready) {
+          acc = [...acc, assignee];
+        }
+        return acc;
+      }, []);
       setUserAssignees(filteredAssignees);
       setInitialNormalizing(false);
     }
@@ -101,23 +101,25 @@ const Task = ({userAuthorized}) => {
 
   useEffect(() => {
     if ( initialGroupNormalizing && groupAssignees.length && groupMembers.length) {
-      let filteredAssignees;
-       groupMembers.forEach((member) => {
-        filteredAssignees = groupMembers.filter(
-          assignee => ((assignee.uuid || assignee.id) !== (member.uuid || member.id))
-        );
-      });
+      const filteredAssignees = groupAssignees.reduce((acc, assignee) => {
+        const isMemberAlready = groupMembers.some(member => member.uuid === assignee.uuid);
+        if (!isMemberAlready) {
+          acc = [...acc, assignee];
+        }
+        return acc;
+      }, []);
 
       setGroupAssignees(filteredAssignees);
       setInitialGroupNormalizing(false);
     }
-  }, [groupAssignees, groupMembers]);
+  }, [groupAssignees, groupMembers, initialGroupNormalizing]);
 
   const handleAddUserMember = (assigneeUuid) => {
     if (userAssignees.length) {
       const assignee = userAssignees.find(
         (assignee) =>( (assignee.uuid || assignee.id) === assigneeUuid)
       );
+
       setUserMembers([...userMembers, assignee]);
       axios({
         method: "POST",
@@ -143,14 +145,22 @@ const Task = ({userAuthorized}) => {
 
   const handleUserMemberRemoval = (memberUuid) => {
     const member = userMembers.find(
-      (member) =>( (member.uuid || member.id) === memberUuid)
+      (member) =>( (member.uuid) === memberUuid)
     );
     setUserAssignees([...userAssignees, member]);
     
     const filteredMembers = userMembers.filter(
-      member => ((member.uuid || member.id) !== memberUuid)
+      member => ((member.uuid) !== memberUuid)
     );
     setUserMembers(filteredMembers);
+
+    axios({
+      method: "GET",
+      url: `http://localhost:8080/api/taskStudents/search/deleteTaskStudentByTaskAndStudent?task=${taskId}&student=${member.uuid}`,
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      } 
+    })
   };
 
   const handleAddGroupMember = (groupAssigneeUuid) => {
@@ -179,6 +189,26 @@ const Task = ({userAuthorized}) => {
       );
       setGroupAssignees(filteredAssignees);
     }
+  }
+
+  const handleGroupMemberRemoval = (memberUuid) => {
+    const member = groupMembers.find(
+      (member) =>( (member.uuid) === memberUuid)
+    );
+    setUserAssignees([...groupAssignees, member]);
+    
+    const filteredMembers = groupMembers.filter(
+      member => ((member.uuid) !== memberUuid)
+    );
+
+    setGroupMembers(filteredMembers);
+    axios({
+      method: "GET",
+      url: `http://localhost:8080/api/taskClasses/search/deleteTaskClassByTaskAndClass?task=${taskId}&class=${member.uuid}`,
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      } 
+    })
   }
 
   const handleDescritionUpdate = (e) => {
@@ -228,6 +258,7 @@ const Task = ({userAuthorized}) => {
           groupMembers={groupMembers}
           groupAssignees={groupAssignees}
           onGroupAdd={handleAddGroupMember}
+          onGroupDelete={handleGroupMemberRemoval}
         />
       </Col>
     </Row>

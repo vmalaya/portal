@@ -59,12 +59,13 @@ const Group = ({ userAuthorized }) => {
 
   useEffect(() => {
     if ( initialNormalizing && assignees.length && members.length) {
-      let filteredAssignees;
-       members.forEach((member) => {
-        filteredAssignees = assignees.filter(
-          assignee => ((assignee.uuid ) !== (member.uuid))
-        );
-      });
+      const filteredAssignees = assignees.reduce((acc, assignee) => {
+        const isMemberAlready = members.some(member => member.uuid === assignee.uuid);
+        if (!isMemberAlready) {
+          acc = [...acc, assignee];
+        }
+        return acc;
+      }, []);
 
       setAssignees(filteredAssignees);
       setInitialNormalizing(false);
@@ -110,15 +111,41 @@ const Group = ({ userAuthorized }) => {
       member => ((member.uuid) !== memberUuid)
     );
     setMembers(filteredMembers);
+
+    axios({
+      method: "GET",
+      url: `http://localhost:8080/api/classStudents/search/deleteClassStudentByClassAndStudent?class=${groupId}&student=${member.uuid}`,
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      }
+    })
   };
+
+  const onGroupNameChange = (name) => {
+    setGroup({...group, name});
+
+    axios({
+      method: "PUT",
+      url: `http://localhost:8080/api/classes/${groupId}`,
+      data: { name, uuid: group.uuid },
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      }
+    })
+  }
   
   return (
     <Content style={{ 'padding': '20px' }}>
-      <PageHeader title={`Group ${group.name ? group.name : ""}`} />
+      <Row>
+        <Col>
+          <PageHeader title={`Group `} />
+          <Title level={3} editable={{onChange: onGroupNameChange}}>{ group.name ? group.name : "Enter group name here" }</Title>
+        </Col>
+      </Row>
       <div className="group-wrapper">
         <Row>
           <Col span={4}>
-            <Title level={3}>Add a new member</Title>
+            <Title level={3} >Add a new member</Title>
           </Col>
           <Col span={6}>
             <CustomSelect targetType={"user"} options={assignees} onChange={handleAddMember} />

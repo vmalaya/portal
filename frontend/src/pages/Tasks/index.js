@@ -45,6 +45,19 @@ const Tasks = ({setNewTask, userAuthorized}) => {
     });
   };
 
+  const handleTaskRemoval = (uuid) => {
+    const filteredTasks = tasks.filter((task) => task.uuid !== uuid );
+    axios({
+      method: "DELETE",
+      url: `http://localhost:8080/api/tasks/${uuid}`,
+      headers: {
+        Authorization: `Basic ${userAuthorized.token}`
+      }
+    }).then(() => {
+      setTasks(filteredTasks);
+    })
+  }
+
   return (
     <Content style={{ 'padding': '20px' }}>
       <PageHeader
@@ -55,7 +68,7 @@ const Tasks = ({setNewTask, userAuthorized}) => {
         subTitle=""
       />
       <Button style={{ 'marginBottom': '20px' }} type="primary" onClick={handleButtonClick}>Add Task</Button>
-      <CardsList title={"Tasks"} cards={tasks} type="tasks" />
+      <CardsList title={"Tasks"} cards={tasks} type="tasks" onRemove={handleTaskRemoval} />
     </Content>
   );
 };

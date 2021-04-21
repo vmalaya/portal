@@ -7,7 +7,7 @@ import './styles.scss'
 
 const { Title } = Typography;
 
-const CardItem = ({ title = 'new item', uuid, type }) => {
+const CardItem = ({ title = 'new item', uuid, type, onRemove }) => {
   return (
     <div className={'card-wrapper'}>
       <Card hoverable>
@@ -20,6 +20,7 @@ const CardItem = ({ title = 'new item', uuid, type }) => {
             <CloseOutlined/>
           }
           size={'small'}
+          onClick={() => onRemove(uuid)}
          />
         <Link to={`/${type}/${uuid}`}>
           <Title level={4} style={{ 'margin': 0 }}>{title}</Title>
