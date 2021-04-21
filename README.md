@@ -43,8 +43,17 @@ curl -X DELETE http://localhost:8080/api/classStudents/{class_student_id} -u alb
 curl -X DELETE http://localhost:8080/api/taskClasses/{task_class_id} -u albus:111111
 // remove class
 curl -X DELETE localhost:8080/api/classes/{class_id} -u albus:111111
+// remove task
+curl -X DELETE localhost:8080/api/tasks/{task_id} -u albus:111111
 
+-----
+// remove student from task
 http://localhost:8080/api/taskStudents/search/deleteTaskStudentByTaskAndStudent?task=1&student=1
+// remove student from class
+http://localhost:8080/api/classStudents/search/deleteClassStudentByClassAndStudent?class=1&student=1
+// remove class from task
+http://localhost:8080/api/taskClasses/search/deleteTaskClassByTaskAndClass?task=1&class=1
+
 ```
 
 ## Database design
