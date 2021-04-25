@@ -1,0 +1,115 @@
+[[find_all_api]]
+= The portal backend API Guide
+
+[[getting_started_running_the_service]]
+== Running the service
+The portal backend is written using https://projects.spring.io/spring-boot[Spring Boot] which
+makes it easy to get it up and running so that you can start exploring the REST API.
+
+The first step is to clone the Git repository:
+
+[source,bash]
+----
+$ git clone https://github.com/vmalaya/portal.git
+----
+
+Once the clone is complete, you're ready to get the service up and running:
+
+[source,cmd]
+----
+cd portal
+mvnw spring-boot:run
+----
+
+You can check that the service is up and running by executing a simple request using
+cURL:
+
+include::{snippets}/api-example/curl-request.adoc[]
+
+This request should yield the following response in the
+https://github.com/mikekelly/hal_specification[Hypertext Application Language (HAL)]
+format:
+
+include::{snippets}/api-example/http-response.adoc[]
+
+Note the `_links` in the JSON response. They are key to navigating the API.
+
+[[getting_started_creating_a_task]]
+== Creating and manipulating task
+Now that you've started the service and verified that it works, the next step is to use
+it to create a new task. As you saw above, the URI for working with notes is included as
+a link when you perform a `GET` request against the root of the service:
+
+include::{snippets}/api-example/http-response.adoc[]
+
+To create a task, you need to execute a `POST` request to this URI including a JSON
+payload containing the title and description of the task:
+
+include::{snippets}/task-create-example/curl-request.adoc[]
+
+The response from this request should have a status code of `201 Created` and contain a
+`Location` header whose value is the URI of the newly created note:
+
+include::{snippets}/task-create-example/http-response.adoc[]
+
+To update the task please use following request:
+
+include::{snippets}/update-task-example/curl-request.adoc[]
+
+Expected response:
+
+include::{snippets}/update-task-example/http-response.adoc[]
+
+You can assign task to a student with `POST` request:
+
+include::{snippets}/assign-student-to-task-example/curl-request.adoc[]
+
+The response with status code `201` is expected:
+
+include::{snippets}/assign-student-to-task-example/http-response.adoc[]
+
+To delete task, just use "DELETE" request:
+
+include::{snippets}/task-delete-example/curl-request.adoc[]
+
+The response from this request should have a status code of `203 No Content`:
+
+include::{snippets}/task-delete-example/http-response.adoc[]
+
+[[getting_started_creating_a_class]]
+== Creating and manipulating a class
+
+To create a class, you need to execute a `POST` request to the following URI including a JSON
+payload containing the title and description of the task:
+
+include::{snippets}/class-create-example/curl-request.adoc[]
+
+The response from this request should have a status code of `201 Created` and contain a
+`Location` header whose value is the URI of the newly created note:
+
+include::{snippets}/class-create-example/http-response.adoc[]
+
+To delete a class, just use "DELETE" request:
+
+include::{snippets}/class-delete-example/curl-request.adoc[]
+
+The response from this request should have a status code of `203 No Content`:
+
+include::{snippets}/class-delete-example/http-response.adoc[]
+
+You can assign task to a class with `POST` request:
+
+include::{snippets}/assign-class-to-task-example/curl-request.adoc[]
+
+The response with status code `201` is expected:
+
+include::{snippets}/assign-class-to-task-example/http-response.adoc[]
+
+To assign a student to a class, you need to execute a `POST` request to the following URI including a JSON
+payload containing the student and task resources meant to me mapped:
+
+include::{snippets}/assign-student-to-class-example/curl-request.adoc[]
+
+The response from this request should have a status code of `201 Created`:
+
+include::{snippets}/assign-student-to-class-example/http-response.adoc[]

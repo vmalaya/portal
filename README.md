@@ -3,7 +3,7 @@
 Educational portal for communication between mentor and mentee.
 Application uses Spring Boot + React.js as main backend + frontend technologies.
 
-## To Run
+## To Run and test API
 ```shell script
 // bring up application
 mvnw spring-boot:run
@@ -55,6 +55,12 @@ http://localhost:8080/api/classStudents/search/deleteClassStudentByClassAndStude
 http://localhost:8080/api/taskClasses/search/deleteTaskClassByTaskAndClass?task=1&class=1
 
 ```
+
+### To build Spring rest docs documentation:
+
+1. Run ApiDocumentation.java tests to generate snippets
+2. `mvnw package`
+3. Go to `target/generated-snippets/documentation/index.html`, open it in Chrome
 
 ## Database design
 Entity-relationship diagram
