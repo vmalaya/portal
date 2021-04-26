@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect } from "react";
 import { Redirect, Switch, useLocation, Route } from "react-router-dom";
 import { Layout } from 'antd';
 import SignIn from './pages/SignIn';
@@ -17,6 +17,14 @@ const App = () => {
   const [newTask, setNewTask] = useState({status: false, uuid: ""});
   const [newGroup, setNewGroup] = useState({status: false, uuid: ""});
 
+  useEffect(() => {
+    if (newTask.status) setNewTask({status: false, uuid: ""});
+  }, [newTask]);
+
+  useEffect(() => {
+    if (newGroup.status) setNewGroup({status: false, uuid: ""});
+  }, [newGroup]);
+
   return (
     <Layout style={{"minHeight": "100vh"}}>
       { pathname.includes('/sign-in') ? null : <Navigation setUserStatus={setUserStatus} /> }
@@ -28,15 +36,29 @@ const App = () => {
           <Tasks setNewTask={setNewTask} userAuthorized={userAuthorized} />
           }
            />
-        <CustomRoute isToRedirect={!userAuthorized} exact path={"/groups"} renderFunc={() => 
+        <CustomRoute isToRedirect={!userAuthorized} exact={true} path={"/groups"} renderFunc={() => 
           newGroup.status ?
           <Redirect to={`/groups/${newGroup.uuid}`} />
           :
           <Groups setNewGroup={setNewGroup} userAuthorized={userAuthorized} />}
         />
-        <CustomRoute isToRedirect={!userAuthorized} exact={true} path={"/tasks/:taskId"} renderFunc={() => <Task userAuthorized={userAuthorized} />}  />
-        <CustomRoute isToRedirect={!userAuthorized} exact={true} path={"/groups/:groupId"} renderFunc={() => <Group userAuthorized={userAuthorized} />}  />
-        <Route exact={true} path={"/sign-in"} render={() => userAuthorized ? <Redirect to={"/"} /> : <SignIn setUserStatus={setUserStatus} />} />
+        <CustomRoute 
+          isToRedirect={!userAuthorized}
+          exact={true}
+          path={"/tasks/:taskId"}
+          renderFunc={() => <Task userAuthorized={userAuthorized} />}
+        />
+        <CustomRoute 
+            isToRedirect={!userAuthorized}
+            exact={true}
+            path={"/groups/:groupId"}
+            renderFunc={() => <Group userAuthorized={userAuthorized} />}
+          />
+        <Route 
+          exact={true}
+          path={"/sign-in"}
+          render={() => userAuthorized ? <Redirect to={"/"} /> : <SignIn setUserStatus={setUserStatus} />}
+        />
       </Switch>
     </Layout>
   );

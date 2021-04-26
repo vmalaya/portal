@@ -24,8 +24,12 @@ const Navigation = ({setUserStatus}) => {
 
   return (<Header>
     <Menu theme={'dark'} mode={'horizontal'}>
-      <Menu.Item><Link to={'/'}>Tasks</Link></Menu.Item>
-      <Menu.Item><Link to={'/groups'}>Groups</Link></Menu.Item>
+      <Menu.Item>
+        <Link to={'/'}>Tasks</Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link to={'/groups'}>Groups</Link>
+      </Menu.Item>
     </Menu>
     <Button className={"nav-btn-logout"} type={'default'} ghost onClick={handleLogoutClick}>Logout</Button>
     <Modal title="Log out" visible={isModalVisible} onOk={handleLogout} onCancel={handleCancel}>

@@ -234,7 +234,8 @@ const Task = ({userAuthorized}) => {
     <Row>
       <Col span={16}>
       {isToUpdateInfo ?
-        <TaskForm title={title}
+        <TaskForm 
+          title={title}
           description={description}
           onDescriptionUpdate={handleDescritionUpdate} 
           onTitleUpdate={handleTitleUpdate}
@@ -243,8 +244,8 @@ const Task = ({userAuthorized}) => {
         />
         :
         <TaskInfo 
-          title={title}
-          description={description}
+          title={title || "task name"}
+          description={description || "task description goes here..."}
           setIsToUpdateInfo={setIsToUpdateInfo}
         />
         }
