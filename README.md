@@ -62,6 +62,10 @@ http://localhost:8080/api/taskClasses/search/deleteTaskClassByTaskAndClass?task=
 2. `mvnw package`
 3. Go to `target/generated-snippets/documentation/index.html`, open it in Chrome
 
+## About [submodule] _vuepress_
+
+This project contains user guides with all needed info and related diagrams generated with help of [VuePress].
+
 ## Database design
 Entity-relationship diagram
  
@@ -91,3 +95,6 @@ The following guides illustrate how to use some features concretely:
 * [Handling Form Submission](https://spring.io/guides/gs/handling-form-submission/)
 * [Accessing Data with JPA](https://spring.io/guides/gs/accessing-data-jpa/)
 
+<!-- links -->
+[vuepress]:https://vuepress.vuejs.org/guide/
+[submodule]:vuepress

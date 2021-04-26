@@ -1,0 +1,28 @@
+{
+  "name": "vuepress",
+  "version": "",
+  "description": "The portal user guide",
+  "main": "index.js",
+  "scripts": {
+    "start": "vuepress dev",
+    "build": "vuepress build",
+    "gitlab-pages": "cross-env GITLAB=true vuepress build"
+  },
+  "keywords": [
+    "docs",
+    "vuepress",
+    "documentation"
+  ],
+  "devDependencies": {
+    "@types/node": "14.14.41",
+    "@vuepress/plugin-active-header-links": "1.8.2",
+    "@vuepress/plugin-back-to-top": "1.8.2",
+    "@vuepress/plugin-medium-zoom": "1.8.2",
+    "@vuepress/plugin-pagination": "1.0.0-alpha.0",
+    "cross-env": "7.0.3",
+    "rimraf": "3.0.2",
+    "terser": "5.7.0",
+    "markdown-it-vuepress-code-snippet-enhanced": "1.0.1",
+    "vuepress": "1.8.2"
+  }
+}
