@@ -26,6 +26,9 @@
     <junit-jupiter-api.version>5.7.1</junit-jupiter-api.version>
     <asciidoctor-maven-plugin.version>2.1.0</asciidoctor-maven-plugin.version>
   </properties>
+  <modules>
+    <module>vuepress</module>
+  </modules>
   <dependencies>
     <dependency>
       <groupId>org.springframework.restdocs</groupId>

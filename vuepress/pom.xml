@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <groupId>com.melnychenko</groupId>
+    <artifactId>portal</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <description>User guide</description>
+  <artifactId>vuepress</artifactId>
+  <packaging>pom</packaging>
+
+  <properties>
+    <frontend-maven-plugin.version>1.7.6</frontend-maven-plugin.version>
+    <frontend-maven-plugin.npmVersion>6.4.1</frontend-maven-plugin.npmVersion>
+    <frontend-maven-plugin.nodeVersion>v10.15.3</frontend-maven-plugin.nodeVersion>
+  </properties>
+
+  <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>com.github.eirslett</groupId>
+          <artifactId>frontend-maven-plugin</artifactId>
+          <version>${frontend-maven-plugin.version}</version>
+          <configuration>
+            <skip>true</skip>
+            <workingDirectory>docs</workingDirectory>
+            <installDirectory>target</installDirectory>
+            <npmVersion>${frontend-maven-plugin.npmVersion}</npmVersion>
+            <nodeVersion>${frontend-maven-plugin.nodeVersion}</nodeVersion>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+
+  <profiles>
+    <profile>
+      <id>docs</id>
+
+      <build>
+        <defaultGoal>clean process-resources</defaultGoal>
+
+        <plugins>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <configuration>
+              <skip>false</skip>
+            </configuration>
+            <executions>
+              <execution>
+                <id>install-node-and-npm</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>install-node-and-npm</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>npm-install</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>i</arguments>
+                </configuration>
+                <phase>process-resources</phase>
+              </execution>
+              <execution>
+                <id>npm-run-build</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>run build</arguments>
+                </configuration>
+                <phase>process-resources</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>gitlab-pages</id>
+
+      <build>
+        <defaultGoal>clean process-resources</defaultGoal>
+
+        <plugins>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <configuration>
+              <skip>false</skip>
+            </configuration>
+            <executions>
+              <execution>
+                <id>install-node-and-npm</id>
+                <phase>process-resources</phase>
+                <goals>
+                  <goal>install-node-and-npm</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>npm-install</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>i</arguments>
+                </configuration>
+                <phase>process-resources</phase>
+              </execution>
+              <execution>
+                <id>npm-run-gitlab-pages</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>run gitlab-pages</arguments>
+                </configuration>
+                <phase>process-resources</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>
