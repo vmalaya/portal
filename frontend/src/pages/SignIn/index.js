@@ -34,14 +34,13 @@ const SignIn = ({ setUserStatus }) => {
 
   return (
     <Row justify="center" align="middle" style={{paddingTop: '20vh'}}>
-      <Col span={8}/>
-      <Col span={8}> 
-          
+      <Col justify="center" span={11} xl={10} xxl={8}>     
           <Form
           name="basic"
           labelCol={{span: 4}}
           initialValues={{ remember: true }}
           onFinish={handleSubmit}
+          style={{maxWidth: 550}}
           >
             <Form.Item {...tailLayout}><Title  level={1}>Sign In</Title></Form.Item>
             <Form.Item
@@ -67,7 +66,6 @@ const SignIn = ({ setUserStatus }) => {
             </Form.Item>
         </Form>
       </Col>
-      <Col span={8}/>
     </Row>
   )
 }
